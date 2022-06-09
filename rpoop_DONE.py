@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May 16 13:23:06 2022
-
-@author: Chinmay Chavan
-"""
 
 from tkinter import*
 import tkinter.messagebox as tkMessageBox
@@ -20,8 +14,8 @@ root.configure(bg="black")
 root.title("Metro Station Service")
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-width = 900
-height = 500
+width = 1400
+height = 800
 x = (screen_width/2) - (width/2)
 y = (screen_height/2) - (height/2)
 root.geometry('%dx%d+%d+%d' % (width, height, x, y))
@@ -31,22 +25,24 @@ def additem():
     e1=entry1.get()
     e2=entry2.get()
     e3=entry3.get()
-    e4=entry4.get()
+    e4=entry4.get() 
     e5=entry5.get()
     e6=entry6.get()
-    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="":
+    e7=entry7.get()
+    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="" and entry7.get()=="":
 
         print("Error")
         tkMessageBox.showerror("error","there is issue with some information")
 
     else:
-        result=tkMessageBox.askquestion("Submit","You are about to enter following details\n" + e1 + "\n" + e2 + "\n" + e3 + "\n" + e4 + "\n" + e5 +"\n" + e6 )
+        result=tkMessageBox.askquestion("Submit","You are about to enter following details\n" + e1 + "\n" + e2 + "\n" + e3 + "\n" + e4 + "\n" + e5 +"\n" + e6 + "\n" + e7)
         entry1.delete(0, END)
         entry2.delete(0, END)
         entry3.delete(0, END)
         entry4.delete(0, END)
         entry5.delete(0, END)
         entry6.delete(0, END)
+        entry7.delete(0, END)
         if(result =="yes"):
             print("here")
             with open("data.csv", 'a') as csvfile:
@@ -61,6 +57,7 @@ def additem():
             entry4.set("")
             entry5.set("")
             entry6.set("")
+            entry7.set("")
 def deleteitem():
 ##    tree.delete(*tree.get_children())
     e1=entry1.get()
@@ -69,7 +66,8 @@ def deleteitem():
     e4=entry4.get()
     e5=entry5.get()
     e6=entry6.get()
-    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="":
+    e7 = entry7.get()
+    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="" and entry7.get()=="":
         print("Error")
         tkMessageBox.showerror("error","there is issue with some information")
     else:
@@ -92,6 +90,7 @@ def deleteitem():
             entry4.delete(0, END)
             entry5.delete(0, END)
             entry6.delete(0, END)
+            entry7.delete(0, END)
 def updateitem():
     
     e1=entry1.get()
@@ -100,7 +99,8 @@ def updateitem():
     e4=entry4.get()
     e5=entry5.get()
     e6=entry6.get()
-    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="":
+    e7=entry7.get()
+    if entry1.get()=="" and entry2.get()=="" and entry3.get()=="" and entry4.get()=="" and entry5.get()=="" and entry6.get()=="" and entry7.get()=="":
 
         print("Error")
         tkMessageBox.showerror("error","there is issue with some information")
@@ -123,6 +123,7 @@ def updateitem():
             entry4.delete(0, END)
             entry5.delete(0, END)
             entry6.delete(0, END)
+            entry7.delete(0, END)
                                       
                                       
 
@@ -133,11 +134,12 @@ def viewitem():
         for row in reader:
             MetroNum=row['MetroNum']
             Name =row['Name']
-            StartStation =row['StartStation']
-            EndStation=row['EndStation']
-            Discount=row['Discount']
+            StartStation =row['Start Station']
+            EndStation=row['End Station']
+            StartTime=row['Start Time']
+            EndTime = row['End Time']
             Total_Price=row['Total_Price']
-            tree.insert("", 0, values=(MetroNum, Name, StartStation, EndStation,Discount,Total_Price))
+            tree.insert("", 0, values=(MetroNum, Name, StartStation, EndStation,StartTime,EndTime,Total_Price))
     f.close()
     txt_result.config(text="Successfully read the data from database", fg="black")
             
@@ -150,12 +152,13 @@ def clearitem():
     entry4.delete(0, END)
     entry5.delete(0, END)
     entry6.delete(0, END)
+    entry7.delete(0, END)
 
 def Ticket():
 	with open('data.csv') as file_obj:
 	   	reader_obj = csv.reader(file_obj)
 	   	for row in reader_obj:
-	   		    data = f" Metro Number : {row[0]} \n Name : {row[1]} \n Start Station : {row[2]} \n End Station : {row[3]} \n Discount : {row[4]} \n Total Price : {row[5]}"
+	   		    data = f" Metro Number : {row[0]} \n Name : {row[1]} \n Start Station : {row[2]} \n End Station : {row[3]} \n StartTime : {row[4]} \n Total Price : {row[5]}"
 
             
 		
@@ -175,7 +178,8 @@ MetroNum = StringVar()
 Name = StringVar()
 StartStation = StringVar()
 EndStation = StringVar()
-Discount=StringVar()
+StartTime=StringVar()
+EndTime = StringVar()
 Total_Price = StringVar()
 
 Top = Frame(root, width=900, height=50 ,bd=8, relief="raise")
@@ -199,8 +203,10 @@ label2 = Label(Forms, text="Start Station",fg='red', font=('arial', 16), bd=15)
 label2.grid(row=2, stick="e")
 label3 = Label(Forms, text="End station",fg='red', font=('arial', 16), bd=15)
 label3.grid(row=3, stick="e")
-label4 = Label(Forms, text="Discount",fg='red', font=('arial', 16), bd=15)
+label4 = Label(Forms, text="StartTime",fg='red', font=('arial', 16), bd=15)
 label4.grid(row=4, stick="e")
+label6 = Label(Forms, text="EndTime",fg='red', font=('arial', 16), bd=15)
+label6.grid(row=6, stick="e")
 label5 = Label(Forms, text="Total price:",fg='red', font=('arial', 16), bd=15)
 label5.grid(row=5, stick="e")
 txt_result = Label(Buttons)
@@ -214,10 +220,12 @@ entry3 = Entry(Forms, textvariable=StartStation, width=30)
 entry3.grid(row=2, column=1)
 entry4 = Entry(Forms, textvariable=EndStation, width=30)
 entry4.grid(row=3, column=1)
-entry5 = Entry(Forms, textvariable=Discount, width=30)
+entry5 = Entry(Forms, textvariable=StartTime, width=30)
 entry5.grid(row=4, column=1)
 entry6 = Entry(Forms, textvariable=Total_Price, width=30)
 entry6.grid(row=5, column=1)
+entry7 = Entry(Forms, textvariable=Total_Price, width=30)
+entry7.grid(row=6, column=1)
 
 
 btn_add = Button(Buttons, width=10,text="ADD",fg="red",bg="white",font=('arial', 10), command=additem)
@@ -236,7 +244,7 @@ btn_tick.pack(side=LEFT)
 
 scrollbary = Scrollbar(Right, orient=VERTICAL)
 scrollbarx = Scrollbar(Right, orient=HORIZONTAL)
-tree = ttk.Treeview(Right, columns=( "MetroNum", "Name", "StartStation", "EndStation","Discount", "Total_Price"),
+tree = ttk.Treeview(Right, columns=( "MetroNum", "Name", "StartStation", "EndStation","StartTime", "Total_Price"),
                     selectmode="extended", height=500, yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
 scrollbary.config(command=tree.yview)
 scrollbary.pack(side=RIGHT, fill=Y)
@@ -247,13 +255,16 @@ tree.heading('MetroNum', text="Number", anchor=W)
 tree.heading('Name', text="Name", anchor=W)
 tree.heading('StartStation', text="Starting station", anchor=W)
 tree.heading('EndStation', text="End station", anchor=W)
-tree.heading('Discount', text="Discount", anchor=W)
+tree.heading('StartTime', text="StartTime", anchor=W)
+tree.heading('EndTime', text="EndTime", anchor=W)
 tree.heading('Total_Price', text="Total price", anchor=W)
 tree.column('#0', stretch=NO, minwidth=0, width=0)
 tree.column('#1', stretch=NO, minwidth=0, width=100)
 tree.column('#2', stretch=NO, minwidth=0, width=150)
 tree.column('#3', stretch=NO, minwidth=0, width=150)
 tree.column('#4', stretch=NO, minwidth=0, width=100)
+tree.column('#5', stretch=NO, minwidth=0, width=100)
+tree.column('#6', stretch=NO, minwidth=0, width=100)
 
 tree.pack()
 qr = qrcode.QRCode(
